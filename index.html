@@ -14,12 +14,24 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <div class="container" ng-controller="WebglController">
+      <div ng-webgl id="webglContainer"
+          width="canvasWidth"
+          height="canvasHeight"
+          fillcontainer="dofillcontainer"
+          scale="scale"
+          material-type="materialType">
+      </div>
+    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.min.js"></script>
 
     <!-- app scripts -->
     <script src="app/app.js"></script>
+    <script src="app/components/WebglController.js"></script>
+    <script src="app/components/ngWebgl.js"></script>
 
 </body>
 </html>
