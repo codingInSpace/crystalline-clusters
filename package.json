@@ -1,0 +1,10 @@
+{
+  "name": "Crystalline_Clusters",
+  "version": "0.1.0",
+  "author": "codingInSpace <jonathan.grangien@gmail.com>",
+  "description": "A WegGL app",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-serve": "^0.1.6"
+  }
+}
