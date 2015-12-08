@@ -21,7 +21,7 @@ angular.module('ccApp')
           windowHalfY = contH / 2,
           materials = {};
 
-        var amountCrystals = 7;
+        var amountCrystals = 18;
         var crystalMeshes = [];
 
 
@@ -58,9 +58,16 @@ angular.module('ccApp')
             crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
 
             crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
-        		var xPos = Math.random() * (200 - -200) - 200;
-        		var yPos = Math.random() * (50 - -50) - 50;
-        		var zPos = Math.random() * (300 - -300) - 300;
+
+            var xPos = 0, yPos = 0, zPos = 0;
+
+            while(Math.abs(xPos) <= 200 && Math.abs(zPos) <= 200) {
+          		xPos = Math.random() * (300 - -300) - 300;
+          		zPos = Math.random() * (400 - -400) - 400;
+            }
+
+            yPos = Math.random() * (100 - -100) - 100;
+
         		crystalMeshes[i].position.set(xPos, yPos, zPos);
 
             var stretch = Math.random() * (1.7 - 0.9) + 0.9;
