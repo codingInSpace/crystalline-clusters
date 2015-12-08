@@ -21,6 +21,8 @@ angular.module('ccApp')
           windowHalfY = contH / 2,
           materials = {};
 
+        var amountCrystals = 7;
+
 
         scope.init = function () {
 
@@ -38,13 +40,25 @@ angular.module('ccApp')
 
           var material = new THREE.MeshPhongMaterial({color: 0x000000});
         	var geometry = new THREE.OctahedronGeometry(60);
+          var mesh = [];
 
-          var mesh = new THREE.Mesh(geometry, material);
-          mesh.scale.x = 0.5;
-          mesh.scale.y = 1.3;
-          mesh.position.set(0, 0, 0);
-      		scene.add(mesh);
+          for (var i = 0; i < amountCrystals; ++i) {
+            mesh[i] = new THREE.Mesh(geometry, material);
+            // mesh[i].scale.x = 0.5;
+            // mesh[i].scale.y = 1.3;
+            // mesh[i].position.set(0, 0, 0);
 
+            mesh[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
+        		var xPos = Math.random() * (200 - -200) - 200;
+        		var yPos = Math.random() * (50 - -50) - 50;
+        		var zPos = Math.random() * (300 - -300) - 300;
+        		mesh[i].position.set(xPos, yPos, zPos);
+
+            var stretch = Math.random() * (1.7 - 0.9) + 0.9;
+        		mesh[i].scale.set(0.7, stretch, 1);
+
+            scene.add(mesh[i]);
+          }
 
           renderer = new THREE.WebGLRenderer( { antialias: true } );
           renderer.setClearColor( 0xffffff );
