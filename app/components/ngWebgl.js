@@ -22,6 +22,7 @@ angular.module('ccApp')
           materials = {};
 
         var amountCrystals = 7;
+        var crystalMeshes = [];
 
 
         scope.init = function () {
@@ -50,23 +51,25 @@ angular.module('ccApp')
                         '#ff6699'];
 
         	var commonGeometry = new THREE.OctahedronGeometry(60);
-          var mesh = [];
 
           for (var i = 0; i < amountCrystals; ++i) {
             var color = colors[Math.floor(Math.random()*colors.length)];
             var material = new THREE.MeshPhongMaterial({color: color});
-            mesh[i] = new THREE.Mesh(commonGeometry, material);
+            crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
 
-            mesh[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
+            crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
         		var xPos = Math.random() * (200 - -200) - 200;
         		var yPos = Math.random() * (50 - -50) - 50;
         		var zPos = Math.random() * (300 - -300) - 300;
-        		mesh[i].position.set(xPos, yPos, zPos);
+        		crystalMeshes[i].position.set(xPos, yPos, zPos);
 
             var stretch = Math.random() * (1.7 - 0.9) + 0.9;
-        		mesh[i].scale.set(0.7, stretch, 1);
+        		crystalMeshes[i].scale.set(0.7, stretch, 0.7);
 
-            scene.add(mesh[i]);
+            // Assign pos or neg value to be used as rotation direction in render loop, less calculation
+            crystalMeshes[i].direction = Math.random() < 0.5 ? -1 : 1;
+
+            scene.add(crystalMeshes[i]);
           }
 
           renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -117,6 +120,15 @@ angular.module('ccApp')
 
           camera.lookAt( scene.position );
           renderer.render( scene, camera );
+
+          // Rotate each crystal
+      		for (var i=0; i < amountCrystals; ++i) {
+      			var rotation = Math.random() * (0.01 - 0.0005) + 0.0005;
+      			var direction = crystalMeshes[i].direction;
+      			crystalMeshes[i].rotation.y -= rotation * direction;
+      			// crystalMeshes[i].rotation.z -= 0.0005 * direction;
+      		}
+
         };
 
         scope.$watch('fillcontainer + width + height', function () {
