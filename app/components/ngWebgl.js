@@ -52,10 +52,27 @@ angular.module('ccApp')
 
         	var commonGeometry = new THREE.OctahedronGeometry(60);
 
+          // Glow
+          var glowGeometry = new THREE.OctahedronGeometry(70);
+          var glowMaterial = new THREE.ShaderMaterial({
+              uniforms: {},
+            	vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
+            	fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+            	side: THREE.BackSide,
+            	blending: THREE.AdditiveBlending,
+            	transparent: true
+          });
+
           for (var i = 0; i < amountCrystals; ++i) {
             var color = colors[Math.floor(Math.random()*colors.length)];
             var material = new THREE.MeshPhongMaterial({color: color});
             crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
+
+            // Add glow to crystal
+            var glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            glow.receiveShadow = false;
+            glow.castShadow = false;
+            crystalMeshes[i].add(glow);
 
             crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
 

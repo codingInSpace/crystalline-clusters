@@ -8,6 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Crystalline Clusters</title>
     <meta name="viewport" content="width=device-width">
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+			varying vec3 vNormal;
+			void main() {
+			    vNormal = normalize( normalMatrix * normal );
+			    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+		</script>
+
+    <script id="fragmentShader" type="x-shader/x-vertex">
+			varying vec3 vNormal;
+			void main() {
+				float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 0.5 ) ), 7.0 );
+			    gl_FragColor = vec4( 0.7, 0.3, 0.4, 1.0 ) * intensity;
+			}
+		</script>
 </head>
   <body ng-app="ccApp">
     <!--[if lt IE 7]>
