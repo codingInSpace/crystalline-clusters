@@ -38,15 +38,24 @@ angular.module('ccApp')
           light.position.set( 0, 0, 1 );
           scene.add( light );
 
-          var material = new THREE.MeshPhongMaterial({color: 0x000000});
-        	var geometry = new THREE.OctahedronGeometry(60);
+          // selection of colors
+          var colors = ['#bb99ff',
+                        '#9966ff',
+                        '#4d00e6',
+                        '#660066',
+                        '#cc00cc',
+                        '#ff66ff',
+                        '#ff3377',
+                        '#990099',
+                        '#ff6699'];
+
+        	var commonGeometry = new THREE.OctahedronGeometry(60);
           var mesh = [];
 
           for (var i = 0; i < amountCrystals; ++i) {
-            mesh[i] = new THREE.Mesh(geometry, material);
-            // mesh[i].scale.x = 0.5;
-            // mesh[i].scale.y = 1.3;
-            // mesh[i].position.set(0, 0, 0);
+            var color = colors[Math.floor(Math.random()*colors.length)];
+            var material = new THREE.MeshPhongMaterial({color: color});
+            mesh[i] = new THREE.Mesh(commonGeometry, material);
 
             mesh[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
         		var xPos = Math.random() * (200 - -200) - 200;
