@@ -70,9 +70,11 @@ angular.module('ccApp')
               var material = new THREE.MeshPhongMaterial({
                 color: color,
                 emissive: new THREE.Color("rgb(30, 30, 30)"),
-                transparent: true,
-                opacity: 0.96
+                transparent: true
               });
+
+              var opacity = Math.random() * (1.0 - 0.8) + 0.8;
+              material.opacity = opacity;
 
               var crystal = new THREE.Mesh(commonGeometry, material);
 
