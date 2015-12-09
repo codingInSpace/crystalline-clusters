@@ -14,16 +14,16 @@ angular.module('ccApp')
         var feedbackDelay = new Tone.PingPongDelay("8n", 0.6);
         oscBass.connect(feedbackDelay);
         feedbackDelay.toMaster();
-        feedbackDelay.wet.value = 0.8;
+        feedbackDelay.wet.value = 0.3;
 
         // panner
         var panner = new Tone.AutoPanner(0.5);
         panner.toMaster();
-        panner.dry = 0.1;
+        panner.dry = 0.3;
         oscBass.connect(panner);
 
         //connect it to the output
-        oscBass.volume.value = -25;
+        oscBass.volume.value = -18;
         oscBass.toMaster();
         oscBass.start();
 
@@ -46,7 +46,7 @@ angular.module('ccApp')
 
         // Connect and disconnect cool effects from time to time
         setInterval(function() {
-            if (Math.random() > 0.5) {
+            if (Math.random() > 0.65) {
                 var dist = new Tone.Distortion(0.5).toMaster();
                 var autoWah = new Tone.AutoWah(500, 3, -20).toMaster();
                 oscMelody.connect(dist);
@@ -56,19 +56,25 @@ angular.module('ccApp')
                 setTimeout(function() {
                     dist.dispose();
                     autoWah.dispose();
-                }, 15000);
+                }, 22000);
             }
-        }, 20000);
+        }, 25000);
 
-        Tone.Transport.loopEnd = "1m";
         Tone.Transport.loop = true;
-        Tone.Transport.setInterval(function(time){
+        Tone.Transport.scheduleRepeat(function(time){
 
         	var index = Math.floor( Math.random() * scale_1.length );
         	var freq = oscMelody.noteToFrequency( scale_1[ index ] );
             // console.log("Played " + scale_1[ index ]);
             oscMelody.frequency.value = freq;
-        }, "8n");
+        }, "8n", "1m");
+
+        Tone.Transport.scheduleRepeat(function(time){
+        	var index = Math.floor( Math.random() * scale_2.length );
+        	var freq = oscBass.noteToFrequency( scale_2[ index ] );
+          oscBass.frequency.value = freq;
+
+        }, "2n", "1m");
 
         // Pause melody from time to time
         setInterval(function() {
@@ -81,13 +87,6 @@ angular.module('ccApp')
                 }, 15000);
             }
         }, 20000);
-
-        Tone.Transport.setInterval(function(time){
-        	var index = Math.floor( Math.random() * scale_2.length );
-        	var freq = oscBass.noteToFrequency( scale_2[ index ] );
-          oscBass.frequency.value = freq;
-
-        }, "2n");
 
         Tone.Transport.start();
       }
