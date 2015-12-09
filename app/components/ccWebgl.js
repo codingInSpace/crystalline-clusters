@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ccApp')
-  .directive('ngWebgl', function () {
+  .directive('ccWebgl', function () {
     return {
       restrict: 'A',
       scope: {
