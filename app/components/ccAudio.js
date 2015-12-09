@@ -6,7 +6,7 @@ angular.module('ccApp')
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
         var scale_1 = ["D3", "E3", "F3", "G3", "A4", "Bb4", "C4"];
-        // scale_2 = [];
+        var scale_2 = ["D3", "A3", "C4"];
 
         var osc = new Tone.Oscillator(440, "square");
 
@@ -26,14 +26,14 @@ angular.module('ccApp')
         // env.connect(osc.output.gain);
 
         //connect it to the output
-        //osc.setVolume(-10);
+        osc.volume.value = -35;
         osc.toMaster();
-        // osc.start();
+        osc.start();
 
         var osc_bg = new Tone.Oscillator(440, "sine");
         osc_bg.toMaster();
-        // osc_bg.start();
-        osc_bg.volume.value = -6;
+        osc_bg.start();
+        osc_bg.volume.value = -3;
 
         // vibrato
         var vibrato = new Tone.LFO(6, -25, 25);
@@ -56,12 +56,13 @@ angular.module('ccApp')
             osc_bg.frequency.value = freq;
         }, "4n");
 
-        // Tone.Transport.setInterval(function(time){
-        // 	var index = Math.floor( Math.random() * scale_2.length );
-        // 	var freq = osc_bg.noteToFrequency( scale_2[ index ] );
-        // 	g_objs.get("head").osc.setFrequency(freq);
-        //
-        // }, "16n");
+        Tone.Transport.setInterval(function(time){
+        	var index = Math.floor( Math.random() * scale_2.length );
+        	var freq = osc_bg.noteToFrequency( scale_2[ index ] );
+        	// g_objs.get("head").osc.frequency.value = freq;
+          osc.frequency.value = freq;
+
+        }, "1m");
 
         Tone.Transport.start();
       }
