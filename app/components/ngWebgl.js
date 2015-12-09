@@ -22,7 +22,9 @@ angular.module('ccApp')
           materials = {};
 
         var amountCrystals = 18;
+        var amountClusters = 5;
         var crystalMeshes = [];
+        var clusters = [];
 
 
         scope.init = function () {
@@ -55,43 +57,69 @@ angular.module('ccApp')
             	transparent: true
           });
 
-          for (var i = 0; i < amountCrystals; ++i) {
-            var color = colors[Math.floor(Math.random()*colors.length)];
-            var material = new THREE.MeshPhongMaterial({
-              color: color,
-              emissive: new THREE.Color("rgb(30, 30, 30)"),
-              transparent: true,
-              opacity: 0.96
-            });
+          for (var j = 0; j < amountClusters; ++j) {
+            clusters[j] = new THREE.Group();
 
-            crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
+            for (var i = 0; i < amountCrystals; ++i) {
+              var color = colors[Math.floor(Math.random()*colors.length)];
+              var material = new THREE.MeshPhongMaterial({
+                color: color,
+                emissive: new THREE.Color("rgb(30, 30, 30)"),
+                transparent: true,
+                opacity: 0.96
+              });
 
-            // Add glow to crystal
-            var glow = new THREE.Mesh(glowGeometry, glowMaterial);
-            glow.receiveShadow = false;
-            glow.castShadow = false;
-            crystalMeshes[i].add(glow);
+              crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
 
-            crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
+              // Add glow to crystal
+              var glow = new THREE.Mesh(glowGeometry, glowMaterial);
+              glow.receiveShadow = false;
+              glow.castShadow = false;
+              crystalMeshes[i].add(glow);
 
-            var xPos = 0, yPos = 0, zPos = 0;
+              crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
 
-            while(Math.abs(xPos) <= 200 && Math.abs(zPos) <= 200) {
-          		xPos = Math.random() * (300 - -300) - 300;
-          		zPos = Math.random() * (400 - -400) - 400;
+              var xPos = 0, yPos = 0, zPos = 0;
+
+              while(Math.abs(xPos) <= 200 && Math.abs(zPos) <= 200) {
+            		xPos = Math.random() * (300 - -300) - 300;
+            		zPos = Math.random() * (400 - -400) - 400;
+              }
+
+              yPos = Math.random() * (100 - -100) - 100;
+
+          		crystalMeshes[i].position.set(xPos, yPos, zPos);
+
+              var stretch = Math.random() * (1.7 - 0.9) + 0.9;
+          		crystalMeshes[i].scale.set(0.7, stretch, 0.7);
+
+              // Assign pos or neg value to be used as rotation direction in render loop, less calculation
+              crystalMeshes[i].direction = Math.random() < 0.5 ? -1 : 1;
+
+              clusters[j].add(crystalMeshes[i]);
             }
+          }
 
-            yPos = Math.random() * (100 - -100) - 100;
+          // Add clusters to scene
+          clusters[0].position.set(0, 0, 0);
+          scene.add(clusters[0]);
+          for (var i = 1; i < amountClusters; ++i) {
+            var xPos = Math.random() * (900 - 700) + 700;
+            var yPos = Math.random() * (400 - 300) + 300;
+            var zPos = Math.random() * (9500 - 1000) + 1000;
 
-        		crystalMeshes[i].position.set(xPos, yPos, zPos);
+            var xSign = Math.random() < 0.5 ? -1 : 1;
+            var ySign = Math.random() < 0.5 ? -1 : 1;
+            var zSign = Math.random() < 0.5 ? -1 : 1;
 
-            var stretch = Math.random() * (1.7 - 0.9) + 0.9;
-        		crystalMeshes[i].scale.set(0.7, stretch, 0.7);
+            xPos = xPos * xSign;
+            yPos = yPos * ySign;
+            zPos = zPos * zSign;
 
-            // Assign pos or neg value to be used as rotation direction in render loop, less calculation
-            crystalMeshes[i].direction = Math.random() < 0.5 ? -1 : 1;
+            console.log("hej");
 
-            scene.add(crystalMeshes[i]);
+            clusters[i].position.set(xPos, yPos, zPos);
+            scene.add(clusters[i]);
           }
 
           renderer = new THREE.WebGLRenderer( { antialias: true } );
