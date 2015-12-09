@@ -51,12 +51,12 @@ angular.module('ccApp')
         	var commonGeometry = new THREE.OctahedronGeometry(60);
 
           // Glow
-          var glowGeometry = new THREE.OctahedronGeometry(75);
+          var glowGeometry = new THREE.OctahedronGeometry(63);
           var glowMaterial = new THREE.ShaderMaterial({
               uniforms: {},
             	vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
             	fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
-            	side: THREE.BackSide,
+            	side: THREE.FrontSide,
             	blending: THREE.AdditiveBlending,
             	transparent: true
           });
