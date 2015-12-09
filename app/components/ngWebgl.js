@@ -26,7 +26,7 @@ angular.module('ccApp')
           materials = {};
 
         var amountCrystalsPerCluster = 12;
-        var amountClusters = 20;
+        var amountClusters = 30;
         var crystalMeshes = []; //multiarray of cluster, crystal
         var clusters = [];
 
@@ -114,7 +114,7 @@ angular.module('ccApp')
           clusters[0].position.set(0, 0, 0);
           scene.add(clusters[0]);
           for (var i = 1; i < amountClusters; ++i) {
-            var xPos = Math.random() * (800 - 400) + 400;
+            var xPos = Math.random() * (5000 - 400) + 400;
             var yPos = Math.random() * (400 - 300) + 300;
             var zPos = Math.random() * (9500 - 200) + 200;
 
