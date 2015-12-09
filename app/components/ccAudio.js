@@ -43,9 +43,25 @@ angular.module('ccApp')
         feedbackDelay.toMaster();
         feedbackDelay.wet.value = 0.8;
 
+
+        // Connect and disconnect cool effects from time to time
+        setInterval(function() {
+            if (Math.random() > 0.5) {
+                var dist = new Tone.Distortion(0.5).toMaster();
+                var autoWah = new Tone.AutoWah(500, 3, -20).toMaster();
+                oscMelody.connect(dist);
+                oscMelody.connect(autoWah);
+
+                // Then go back to normal again
+                setTimeout(function() {
+                    dist.dispose();
+                    autoWah.dispose();
+                }, 15000);
+            }
+        }, 20000);
+
         Tone.Transport.loopEnd = "1m";
         Tone.Transport.loop = true;
-
         Tone.Transport.setInterval(function(time){
 
         	var index = Math.floor( Math.random() * scale_1.length );
