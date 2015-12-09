@@ -53,7 +53,7 @@ angular.module('ccApp')
         	var commonGeometry = new THREE.OctahedronGeometry(60);
 
           // Glow
-          var glowGeometry = new THREE.OctahedronGeometry(70);
+          var glowGeometry = new THREE.OctahedronGeometry(75);
           var glowMaterial = new THREE.ShaderMaterial({
               uniforms: {},
             	vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
@@ -65,7 +65,11 @@ angular.module('ccApp')
 
           for (var i = 0; i < amountCrystals; ++i) {
             var color = colors[Math.floor(Math.random()*colors.length)];
-            var material = new THREE.MeshPhongMaterial({color: color});
+            var material = new THREE.MeshPhongMaterial({
+              color: color,
+              emissive: new THREE.Color("rgb(30, 30, 30)")
+            });
+
             crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
 
             // Add glow to crystal
