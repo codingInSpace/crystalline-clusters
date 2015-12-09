@@ -5,8 +5,8 @@ angular.module('ccApp')
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
-        var scale_1 = scope.dMinorScale;
-        var scale_2 = ["C2", "D2", "A2", "C3", "D3"];
+        var scale_1 = scope.dMinor;
+        var scale_2 = scope.dMinorBass;
 
         var oscBass = new Tone.Oscillator(440, "sine");
 
@@ -89,6 +89,19 @@ angular.module('ccApp')
         }, 20000);
 
         Tone.Transport.start();
+
+        // Change played scale when item selected in gui
+        scope.$watch('scale', function (value) {
+            if (value == "dMinor") {
+                scale_1 = scope.dMinor;
+                scale_2 = scope.dMinorBass;
+            }
+
+            else if (value == "aMajor") {
+                scale_1 = scope.aMajor;
+                scale_2 = scope.aMajorBass;
+            }
+        });
       }
     };
   });

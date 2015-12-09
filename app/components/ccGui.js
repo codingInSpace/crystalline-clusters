@@ -8,17 +8,25 @@ angular.module('ccApp')
           var gui = new dat.GUI();
 
           var parameters = {
-            radius: 30,
-            size: 1,
-            rotation: 0.01,
+            scale: "D minor"
           };
-          var radius = gui.add(parameters, 'radius',0).min(30).max(300).step(1).listen();
-          var size = gui.add( parameters, 'size' ).min(0.5).max(5).step(0.1).listen();
-          var rotation = gui.add(parameters, 'rotation').min(0.001).max(0.050).step(0.001).listen();
 
-        //   element[0].appendChild(gui);
+          var musicScale = gui.add( parameters, 'scale', [ "D minor", "A major" ] ).name('Music scale').listen();
+
+          musicScale.onChange(function(value){
+              if (value == "D minor") {
+                  scope.scale = "dMinor";
+                  scope.$apply();
+              }
+
+              else if (value == "A major") {
+                  scope.scale = "aMajor";
+                  scope.$apply();
+              }
+          });
+
+          // Hide by default
           gui.open();
-
       }
     };
   });
