@@ -39,16 +39,8 @@ angular.module('ccApp')
           light.position.set( 0, 0, 1 );
           scene.add( light );
 
-          // selection of colors
-          var colors = ['#bb99ff',
-                        '#9966ff',
-                        '#4d00e6',
-                        '#660066',
-                        '#cc00cc',
-                        '#ff66ff',
-                        '#ff3377',
-                        '#990099',
-                        '#ff6699'];
+          // color selection
+          var colors = ['#990099', '#ff4dc3', '#ff4da6', '#bb33ff', '#6600ff'];
 
         	var commonGeometry = new THREE.OctahedronGeometry(60);
 
@@ -67,7 +59,9 @@ angular.module('ccApp')
             var color = colors[Math.floor(Math.random()*colors.length)];
             var material = new THREE.MeshPhongMaterial({
               color: color,
-              emissive: new THREE.Color("rgb(30, 30, 30)")
+              emissive: new THREE.Color("rgb(30, 30, 30)"),
+              transparent: true,
+              opacity: 0.96
             });
 
             crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
