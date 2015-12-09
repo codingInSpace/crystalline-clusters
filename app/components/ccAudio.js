@@ -5,7 +5,7 @@ angular.module('ccApp')
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
-        var scale_1 = ["A3", "C3", "D3", "E3", "F3", "G3", "A4", "C4", "D4", "F4", "G4"];
+        var scale_1 = scope.dMinorScale;
         var scale_2 = ["C2", "D2", "A2", "C3", "D3"];
 
         var oscBass = new Tone.Oscillator(440, "sine");

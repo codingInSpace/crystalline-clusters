@@ -31,7 +31,10 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div cc-audio></div>
+    <div ng-controller="AudioController">
+        <div cc-audio></div>
+        <div cc-gui></div>
+    </div>
 
     <div class="container" ng-controller="WebglController">
       <div cc-webgl id="webglContainer"
@@ -49,6 +52,7 @@
     <!-- app scripts -->
     <script src="app/app.js"></script>
     <script src="app/components/WebglController.js"></script>
+    <script src="app/components/AudioController.js"></script>
     <script src="app/components/ccWebgl.js"></script>
     <script src="app/components/ccAudio.js"></script>
 
