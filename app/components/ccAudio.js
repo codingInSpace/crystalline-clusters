@@ -50,9 +50,21 @@ angular.module('ccApp')
 
         	var index = Math.floor( Math.random() * scale_1.length );
         	var freq = oscMelody.noteToFrequency( scale_1[ index ] );
-            console.log("Played " + scale_1[ index ]);
+            // console.log("Played " + scale_1[ index ]);
             oscMelody.frequency.value = freq;
         }, "8n");
+
+        // Pause melody from time to time
+        setInterval(function() {
+            if (Math.random() > 0.8) {
+                oscMelody.stop();
+
+                // Then start again
+                setTimeout(function() {
+                    oscMelody.start();
+                }, 15000);
+            }
+        }, 20000);
 
         Tone.Transport.setInterval(function(time){
         	var index = Math.floor( Math.random() * scale_2.length );
