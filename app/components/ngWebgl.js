@@ -21,8 +21,8 @@ angular.module('ccApp')
           windowHalfY = contH / 2,
           materials = {};
 
-        var amountCrystalsPerCluster = 18;
-        var amountClusters = 5;
+        var amountCrystalsPerCluster = 12;
+        var amountClusters = 20;
         var crystalMeshes = []; //multiarray of cluster, crystal
         var clusters = [];
 
@@ -30,7 +30,7 @@ angular.module('ccApp')
         scope.init = function () {
 
           // Camera
-          camera = new THREE.PerspectiveCamera( 20, contW / contH, 1, 10000 );
+          camera = new THREE.PerspectiveCamera( 20, contW / contH, 1, 12000 );
           camera.position.z = 1800;
 
           // Scene
@@ -101,7 +101,6 @@ angular.module('ccApp')
 
               // store in multiarray for global access
               crystalMeshes.push([crystal, j]);
-              console.log("new crystal in cluster " + j);
             }
           }
 
@@ -109,9 +108,9 @@ angular.module('ccApp')
           clusters[0].position.set(0, 0, 0);
           scene.add(clusters[0]);
           for (var i = 1; i < amountClusters; ++i) {
-            var xPos = Math.random() * (900 - 700) + 700;
+            var xPos = Math.random() * (800 - 400) + 400;
             var yPos = Math.random() * (400 - 300) + 300;
-            var zPos = Math.random() * (9500 - 1000) + 1000;
+            var zPos = Math.random() * (9500 - 200) + 200;
 
             var xSign = Math.random() < 0.5 ? -1 : 1;
             var ySign = Math.random() < 0.5 ? -1 : 1;
@@ -120,8 +119,6 @@ angular.module('ccApp')
             xPos = xPos * xSign;
             yPos = yPos * ySign;
             zPos = zPos * zSign;
-
-            console.log("hej");
 
             clusters[i].position.set(xPos, yPos, zPos);
             scene.add(clusters[i]);
