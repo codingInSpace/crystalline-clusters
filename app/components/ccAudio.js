@@ -97,9 +97,14 @@ angular.module('ccApp')
                 scale_2 = scope.dMinorBass;
             }
 
-            else if (value == "aMajor") {
-                scale_1 = scope.aMajor;
-                scale_2 = scope.aMajorBass;
+            else if (value == "cDorian") {
+                scale_1 = scope.cDorian;
+                scale_2 = scope.cDorianBass;
+            }
+
+            else if (value == "aLydian") {
+                scale_1 = scope.aLydian;
+                scale_2 = scope.aLydianBass;
             }
         });
       }

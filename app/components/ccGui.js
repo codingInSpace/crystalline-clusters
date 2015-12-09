@@ -11,7 +11,7 @@ angular.module('ccApp')
             scale: "D minor"
           };
 
-          var musicScale = gui.add( parameters, 'scale', [ "D minor", "A major" ] ).name('Music scale').listen();
+          var musicScale = gui.add( parameters, 'scale', [ "D minor", "C dorian", "A lydian" ] ).name('Music scale').listen();
 
           musicScale.onChange(function(value){
               if (value == "D minor") {
@@ -19,8 +19,13 @@ angular.module('ccApp')
                   scope.$apply();
               }
 
-              else if (value == "A major") {
-                  scope.scale = "aMajor";
+              else if (value == "C dorian") {
+                  scope.scale = "cDorian";
+                  scope.$apply();
+              }
+
+              else if (value == "A lydian") {
+                  scope.scale = "aLydian";
                   scope.$apply();
               }
           });
