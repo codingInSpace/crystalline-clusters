@@ -130,8 +130,8 @@ angular.module('ccApp')
             scene.add(clusters[i]);
           }
 
-          renderer = new THREE.WebGLRenderer( { antialias: true } );
-          renderer.setClearColor( 0x000000 );
+          renderer = new THREE.WebGLRenderer( { alpha: true } );
+          renderer.setClearColor( 0x000000, 0 );
           renderer.setSize( contW, contH );
 
           // element is provided by the angular directive
