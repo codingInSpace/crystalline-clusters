@@ -21,9 +21,9 @@ angular.module('ccApp')
           windowHalfY = contH / 2,
           materials = {};
 
-        var amountCrystals = 18;
+        var amountCrystalsPerCluster = 18;
         var amountClusters = 5;
-        var crystalMeshes = [];
+        var crystalMeshes = []; //multiarray of cluster, crystal
         var clusters = [];
 
 
@@ -57,10 +57,11 @@ angular.module('ccApp')
             	transparent: true
           });
 
+          //Generate clusters and crystals
           for (var j = 0; j < amountClusters; ++j) {
             clusters[j] = new THREE.Group();
 
-            for (var i = 0; i < amountCrystals; ++i) {
+            for (var i = 0; i < amountCrystalsPerCluster; ++i) {
               var color = colors[Math.floor(Math.random()*colors.length)];
               var material = new THREE.MeshPhongMaterial({
                 color: color,
@@ -69,15 +70,15 @@ angular.module('ccApp')
                 opacity: 0.96
               });
 
-              crystalMeshes[i] = new THREE.Mesh(commonGeometry, material);
+              var crystal = new THREE.Mesh(commonGeometry, material);
 
               // Add glow to crystal
               var glow = new THREE.Mesh(glowGeometry, glowMaterial);
               glow.receiveShadow = false;
               glow.castShadow = false;
-              crystalMeshes[i].add(glow);
+              crystal.add(glow);
 
-              crystalMeshes[i].rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
+              crystal.rotation.z = Math.random() * (0.4 - -0.4) - 0.4;
 
               var xPos = 0, yPos = 0, zPos = 0;
 
@@ -88,15 +89,19 @@ angular.module('ccApp')
 
               yPos = Math.random() * (100 - -100) - 100;
 
-          		crystalMeshes[i].position.set(xPos, yPos, zPos);
+          		crystal.position.set(xPos, yPos, zPos);
 
               var stretch = Math.random() * (1.7 - 0.9) + 0.9;
-          		crystalMeshes[i].scale.set(0.7, stretch, 0.7);
+          		crystal.scale.set(0.7, stretch, 0.7);
 
               // Assign pos or neg value to be used as rotation direction in render loop, less calculation
-              crystalMeshes[i].direction = Math.random() < 0.5 ? -1 : 1;
+              crystal.direction = Math.random() < 0.5 ? -1 : 1;
 
-              clusters[j].add(crystalMeshes[i]);
+              clusters[j].add(crystal);
+
+              // store in multiarray for global access
+              crystalMeshes.push([crystal, j]);
+              console.log("new crystal in cluster " + j);
             }
           }
 
@@ -172,11 +177,11 @@ angular.module('ccApp')
           renderer.render( scene, camera );
 
           // Rotate each crystal
-      		for (var i=0; i < amountCrystals; ++i) {
-      			var rotation = Math.random() * (0.01 - 0.0005) + 0.0005;
-      			var direction = crystalMeshes[i].direction;
-      			crystalMeshes[i].rotation.y -= rotation * direction;
-      			// crystalMeshes[i].rotation.z -= 0.0005 * direction;
+      		for (var i = 0; i < (amountClusters * amountCrystalsPerCluster); ++i) {
+      			var rotation = Math.random() * (0.01 - 0.001) + 0.001;
+      			var direction = crystalMeshes[i][0].direction;
+      			crystalMeshes[i][0].rotation.y -= rotation * direction;
+      			// crystalMeshes[i][0].rotation.z -= 0.0005 * direction;
       		}
 
         };
