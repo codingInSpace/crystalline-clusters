@@ -15,8 +15,12 @@ angular.module('ccApp')
           shadowMesh, icosahedron, light,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
-            element[0].clientWidth : scope.width,
-          contH = scope.height,
+            window.innerWidth : scope.width,
+          contH = (scope.fillcontainer) ?
+            window.innerHeight : scope.height,
+          // contH = scope.height,
+          // contW = window.innerWidth,
+          // contH = window.innerHeight,
           windowHalfX = contW / 2,
           windowHalfY = contH / 2,
           materials = {};
@@ -146,9 +150,13 @@ angular.module('ccApp')
         };
 
         scope.resizeCanvas = function () {
-          contW = (scope.fillcontainer) ?
-            element[0].clientWidth : scope.width;
-          contH = scope.height;
+          if (scope.fillcontainer) {
+            contW = window.innerWidth;
+            contH = window.innerHeight;
+          } else {
+            contW = scope.width;
+            contH = scope.height;
+          }
 
           windowHalfX = contW / 2;
           windowHalfY = contH / 2;
