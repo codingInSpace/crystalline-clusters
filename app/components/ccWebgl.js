@@ -25,11 +25,12 @@ angular.module('ccApp')
           windowHalfY = contH / 2,
           materials = {};
 
+        var time = Date.now();
+
         var amountCrystalsPerCluster = 12;
         var amountClusters = 60;
         var crystalMeshes = []; //multiarray of cluster, crystal
         var clusters = [];
-
 
         scope.init = function () {
 
@@ -100,8 +101,10 @@ angular.module('ccApp')
               var stretch = Math.random() * (1.7 - 0.9) + 0.9;
           		crystal.scale.set(0.7, stretch, 0.7);
 
-              // Assign pos or neg value to be used as rotation direction in render loop, less calculation
+              // Assign values to be used in render loop, less calculation
               crystal.direction = Math.random() < 0.5 ? -1 : 1;
+              crystal.levitation = Math.random() * (0.2 - -0.2) - 0.2;
+              console.log("levi = " + crystal.levitation);
 
               clusters[j].add(crystal);
 
@@ -173,22 +176,27 @@ angular.module('ccApp')
         scope.animate = function () {
           requestAnimationFrame( scope.animate );
           scope.render();
-
         };
 
         scope.render = function () {
+          // Update time var
+          time = Date.now() / 1000;
+
           camera.position.x += ( mouseX - camera.position.x ) * 0.05;
           camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
           camera.lookAt( scene.position );
           renderer.render( scene, camera );
 
-          // Rotate each crystal
+          // Move each crystal
       		for (var i = 0; i < (amountClusters * amountCrystalsPerCluster); ++i) {
       			var rotation = Math.random() * (0.01 - 0.001) + 0.001;
       			var direction = crystalMeshes[i][0].direction;
       			crystalMeshes[i][0].rotation.y -= rotation * direction;
       			// crystalMeshes[i][0].rotation.z -= 0.0005 * direction;
+
+            var levitation = crystalMeshes[i][0].levitation;
+            crystalMeshes[i][0].position.y += Math.sin(time / 5) * levitation;
       		}
 
         };
