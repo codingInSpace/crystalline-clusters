@@ -38,6 +38,8 @@ angular.module('ccApp')
           camera = new THREE.PerspectiveCamera( 20, contW / contH, 1, 20000 );
           camera.position.z = 1800;
 
+          // var t = new TWEEN.Tween( /* etc */ );
+
           // Scene
           scene = new THREE.Scene();
 
@@ -130,6 +132,7 @@ angular.module('ccApp')
               // store in multiarray for global access
               crystalMeshes.push([crystal, j]);
             }
+
           }
 
           // Add clusters to scene
@@ -209,7 +212,7 @@ angular.module('ccApp')
 
           // Move light group
           lightGroup.position.y += Math.sin(time/10) * 0.35;
-          console.log("position: " + lightGroup.position.y);
+          // console.log("position: " + lightGroup.position.y);
 
           // Move each crystal
       		for (var i = 0; i < (amountClusters * amountCrystalsPerCluster); ++i) {
