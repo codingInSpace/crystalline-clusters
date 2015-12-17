@@ -12,7 +12,7 @@ angular.module('ccApp')
       link: function postLink(scope, element, attrs) {
 
         var camera, scene, renderer,
-          shadowMesh, icosahedron, light,
+          shadowMesh, icosahedron, light, lightGroup,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
             window.innerWidth : scope.width,
@@ -42,9 +42,12 @@ angular.module('ccApp')
           scene = new THREE.Scene();
 
           // Ligthing
-          light = new THREE.DirectionalLight( 0xffffff );
-          light.position.set( 0, 0, 1 );
-          scene.add( light );
+          lightGroup = new THREE.Group();
+          light = new THREE.PointLight( 0xffffff );
+          light.position.set( 0, 0, 0 );
+          lightGroup.add( light );
+          scene.add( lightGroup );
+          scene.add( new THREE.AmbientLight( 0x202020 ));
 
           // color selection
           var colors = ['#990099', '#ff4dc3', '#ff4da6', '#bb33ff', '#6600ff'];
@@ -104,7 +107,7 @@ angular.module('ccApp')
               // Assign values to be used in render loop, less calculation
               crystal.direction = Math.random() < 0.5 ? -1 : 1;
               crystal.levitation = Math.random() * (0.2 - -0.2) - 0.2;
-              console.log("levi = " + crystal.levitation);
+              // console.log("levi = " + crystal.levitation);
 
               clusters[j].add(crystal);
 
