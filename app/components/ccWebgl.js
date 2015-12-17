@@ -62,6 +62,9 @@ angular.module('ccApp')
           var marbleGlow = new THREE.Mesh( marbleGlowGeometry, marbleGlowMaterial );
           lightGroup.add( marbleGlow )
 
+          //start on a position above origin to have it alternate about it (render loop)
+          lightGroup.position.y = 100;
+
           // color selection
           var colors = ['#990099', '#ff4dc3', '#ff4da6', '#bb33ff', '#6600ff'];
 
@@ -203,6 +206,10 @@ angular.module('ccApp')
 
           camera.lookAt( scene.position );
           renderer.render( scene, camera );
+
+          // Move light group
+          lightGroup.position.y += Math.sin(time/10) * 0.35;
+          console.log("position: " + lightGroup.position.y);
 
           // Move each crystal
       		for (var i = 0; i < (amountClusters * amountCrystalsPerCluster); ++i) {
