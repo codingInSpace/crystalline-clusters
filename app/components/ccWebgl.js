@@ -15,9 +15,9 @@ angular.module('ccApp')
           shadowMesh, icosahedron, light, lightGroup,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
-            window.innerWidth : scope.width,
+            window.outerWidth : scope.width,
           contH = (scope.fillcontainer) ?
-            window.innerHeight : scope.height,
+            window.outerHeight : scope.height,
           // contH = scope.height,
           // contW = window.innerWidth,
           // contH = window.innerHeight,
@@ -63,7 +63,20 @@ angular.module('ccApp')
           lightGroup.add( marbleGlow )
 
           //start on a position above origin to have it alternate about it (render loop)
-          lightGroup.position.y = 100;
+          lightGroup.position.y = 0;
+
+          var tween = new TWEEN.Tween( { x: lightGroup.position.x , z: lightGroup.position.z } )
+            // .to( { x: this.pivot.x , y: this.pivot.z }, 2000 )
+            .to( { x: [20, 30, 20, 0, -20, 0] , z: [20, 0, -20, 0, 30, 0] }, 10000 )
+            .easing( TWEEN.Easing.Circular.InOut )
+            .onUpdate( function () {
+              lightGroup.position.x = this.x;
+              lightGroup.position.z = this.z;
+          } );
+          tween.delay(Math.ceil(Math.random() * 300));
+          tween.start();
+          tween.repeat(Infinity);
+
 
           // color selection
           var colors = ['#990099', '#ff4dc3', '#ff4da6', '#bb33ff', '#6600ff'];
@@ -204,6 +217,7 @@ angular.module('ccApp')
         scope.animate = function () {
           requestAnimationFrame( scope.animate );
           scope.render();
+          TWEEN.update();
           controls.update();
         };
 
@@ -218,7 +232,7 @@ angular.module('ccApp')
           renderer.render( scene, camera );
 
           // Move light group
-          lightGroup.position.y += Math.sin(time/10) * 0.35;
+          // lightGroup.position.y += Math.sin(time/10) * 0.35;
           // console.log("position: " + lightGroup.position.y);
 
           // Move each crystal
