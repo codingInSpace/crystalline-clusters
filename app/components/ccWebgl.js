@@ -49,6 +49,19 @@ angular.module('ccApp')
           scene.add( lightGroup );
           scene.add( new THREE.AmbientLight( 0x202020 ));
 
+          // White glowing marble
+          var marbleGlowMaterial = new THREE.ShaderMaterial({
+            uniforms: {},
+            vertexShader:   document.getElementById( 'vertexShaderWhite'   ).textContent,
+            fragmentShader: document.getElementById( 'fragmentShaderWhite' ).textContent,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true
+          });
+          var marbleGlowGeometry = new THREE.SphereGeometry( 15, 64, 64 );
+          var marbleGlow = new THREE.Mesh( marbleGlowGeometry, marbleGlowMaterial );
+          lightGroup.add( marbleGlow )
+
           // color selection
           var colors = ['#990099', '#ff4dc3', '#ff4da6', '#bb33ff', '#6600ff'];
 
