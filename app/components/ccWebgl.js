@@ -11,7 +11,7 @@ angular.module('ccApp')
       },
       link: function postLink(scope, element, attrs) {
 
-        var camera, scene, renderer,
+        var camera, scene, renderer, controls,
           shadowMesh, icosahedron, light, lightGroup,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
@@ -160,6 +160,13 @@ angular.module('ccApp')
           // element is provided by the angular directive
           element[0].appendChild( renderer.domElement );
 
+          // Controls
+          controls = new THREE.TrackballControls( camera, renderer.domElement );
+          controls.rotateSpeed = 0.8;
+          controls.zoomSpeed = 0.3;
+          controls.panSpeed = 0.8;
+          controls.dynamicDampingFactor = 0.2;
+
           document.addEventListener( 'mousemove', scope.onDocumentMouseMove, false );
           window.addEventListener( 'resize', scope.onWindowResize, false );
 
@@ -167,6 +174,7 @@ angular.module('ccApp')
 
         scope.onWindowResize = function () {
           scope.resizeCanvas();
+          controls.handleResize();
         };
 
         scope.onDocumentMouseMove = function ( event ) {
@@ -196,14 +204,15 @@ angular.module('ccApp')
         scope.animate = function () {
           requestAnimationFrame( scope.animate );
           scope.render();
+          controls.update();
         };
 
         scope.render = function () {
           // Update time var
           time = Date.now() / 1000;
 
-          camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-          camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+          // camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+          // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
           camera.lookAt( scene.position );
           renderer.render( scene, camera );
