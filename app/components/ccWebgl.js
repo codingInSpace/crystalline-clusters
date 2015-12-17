@@ -38,18 +38,16 @@ angular.module('ccApp')
           camera = new THREE.PerspectiveCamera( 20, contW / contH, 1, 20000 );
           camera.position.z = 1800;
 
-          // var t = new TWEEN.Tween( /* etc */ );
-
           // Scene
           scene = new THREE.Scene();
 
           // Ligthing
           lightGroup = new THREE.Group();
-          light = new THREE.PointLight( 0xffffff );
+          light = new THREE.PointLight( 0xffffff, 1, 10000, 0.6 );
           light.position.set( 0, 0, 0 );
           lightGroup.add( light );
           scene.add( lightGroup );
-          scene.add( new THREE.AmbientLight( 0x202020 ));
+          scene.add( new THREE.AmbientLight( 0x010101 ));
 
           // White glowing marble
           var marbleGlowMaterial = new THREE.ShaderMaterial({
