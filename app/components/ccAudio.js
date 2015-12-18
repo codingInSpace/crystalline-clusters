@@ -43,6 +43,18 @@ angular.module('ccApp')
         feedbackDelay.toMaster();
         feedbackDelay.wet.value = 0.8;
 
+        var melody2 = new Tone.SimpleSynth({
+            oscillator : {
+                type : "triangle"
+            },
+            envelope : {
+                attack : 0.01,
+                decay : 0.1,
+                sustain : 0.6,
+                release : 0.8
+            }
+        }).toMaster();
+        melody2.volume.value = -3;
 
         // Connect and disconnect cool effects from time to time
         setInterval(function() {
@@ -67,6 +79,11 @@ angular.module('ccApp')
         	var freq = oscMelody.noteToFrequency( scale_1[ index ] );
             // console.log("Played " + scale_1[ index ]);
             oscMelody.frequency.value = freq;
+
+            if (Math.random() > 0.87) {
+                var index2 = ( index > 2 ) ? index - 2 : index + 2;
+                melody2.triggerAttackRelease(scale_1[ index2 ], "4n");
+            }
         }, "8n", "1m");
 
         Tone.Transport.scheduleRepeat(function(time){
