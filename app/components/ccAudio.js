@@ -46,7 +46,7 @@ angular.module('ccApp')
 
         // Connect and disconnect cool effects from time to time
         setInterval(function() {
-            if (Math.random() > 0.65) {
+            if (Math.random() > 0.8) {
                 var dist = new Tone.Distortion(0.5).toMaster();
                 var autoWah = new Tone.AutoWah(500, 3, -20).toMaster();
                 oscMelody.connect(dist);
@@ -78,7 +78,7 @@ angular.module('ccApp')
 
         // Pause melody from time to time
         setInterval(function() {
-            if (Math.random() > 0.8) {
+            if (Math.random() > 0.85) {
                 oscMelody.stop();
 
                 // Then start again
