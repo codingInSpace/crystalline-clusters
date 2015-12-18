@@ -175,10 +175,9 @@ angular.module('ccApp')
 
           // Controls
           controls = new THREE.TrackballControls( camera, renderer.domElement );
-          controls.rotateSpeed = 0.8;
+          controls.rotateSpeed = 5.0;
           controls.zoomSpeed = 0.3;
-          controls.panSpeed = 0.8;
-          controls.dynamicDampingFactor = 0.2;
+          controls.panSpeed = 5.0;
 
           document.addEventListener( 'mousemove', scope.onDocumentMouseMove, false );
           window.addEventListener( 'resize', scope.onWindowResize, false );
