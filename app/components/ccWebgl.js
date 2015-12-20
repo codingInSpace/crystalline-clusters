@@ -7,7 +7,7 @@ angular.module('ccApp')
       scope: {
         'width': '=',
         'height': '=',
-        'fillcontainer': '=',
+        'fillcontainer': '='
       },
       link: function postLink(scope, element, attrs) {
 
@@ -247,6 +247,17 @@ angular.module('ccApp')
 
         };
 
+        scope.resetCamera = function () {
+            camera.position.x = 0;
+            camera.position.y = 0;
+            camera.position.z = 1800;
+        }
+
+        scope.$on('resetCamera', function(event, data){
+            scope.resetCamera();
+        });
+
+        // Watches are called on start up, another method would be preferable
         scope.$watch('fillcontainer + width + height', function () {
           scope.resizeCanvas();
         });

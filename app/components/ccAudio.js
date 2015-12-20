@@ -7,10 +7,7 @@ angular.module('ccApp')
       link: function postLink(scope, element, attrs) {
         var scale_1 = scope.dMinor;
         var scale_2 = scope.dMinorBass;
-        var isPlaying = (scope.isplaying == undefined) ? true : scope.isplaying;
-        // var isPlaying = scope.isplaying;
-
-        console.log("isPlaying: " + isPlaying);
+        var isPlaying = true;
 
         var oscBass = new Tone.Oscillator(440, "sine");
 
@@ -113,8 +110,6 @@ angular.module('ccApp')
 
         // Stop/Start when checked in gui
         scope.$watch('isplaying', function (value) {
-            console.log("watched, value = " + value);
-
             // value is initially undefined, avoid checking !value
             if (value == true) {
                 oscMelody.start();
