@@ -7,6 +7,7 @@ angular.module('ccApp')
       link: function postLink(scope, element, attrs) {
         var scale_1 = scope.dMinor;
         var scale_2 = scope.dMinorBass;
+        var isPlaying = true;
 
         var oscBass = new Tone.Oscillator(440, "sine");
 
@@ -58,7 +59,7 @@ angular.module('ccApp')
 
         // Connect and disconnect cool effects from time to time
         setInterval(function() {
-            if (Math.random() > 0.8) {
+            if (Math.random() > 0.8 && isPlaying) {
                 var dist = new Tone.Distortion(0.5).toMaster();
                 var autoWah = new Tone.AutoWah(500, 3, -20).toMaster();
                 oscMelody.connect(dist);
@@ -80,7 +81,7 @@ angular.module('ccApp')
             // console.log("Played " + scale_1[ index ]);
             oscMelody.frequency.value = freq;
 
-            if (Math.random() > 0.87) {
+            if ( Math.random() > 0.87 && isPlaying ) {
                 var index2 = ( index > 2 ) ? index - 2 : index + 2;
                 melody2.triggerAttackRelease(scale_1[ index2 ], "4n");
             }
@@ -95,7 +96,7 @@ angular.module('ccApp')
 
         // Pause melody from time to time
         setInterval(function() {
-            if (Math.random() > 0.85) {
+            if (Math.random() > 0.85 && isPlaying) {
                 oscMelody.stop();
 
                 // Then start again
@@ -106,6 +107,22 @@ angular.module('ccApp')
         }, 20000);
 
         Tone.Transport.start();
+
+        // Stop/Start when checked in gui
+        scope.$watch('isplaying', function (value) {
+            // value is initially undefined, avoid checking !value
+            if (value == true) {
+                oscMelody.start();
+                oscBass.start();
+                isPlaying = true;
+            }
+
+            else if (value == false) {
+                oscMelody.stop();
+                oscBass.stop();
+                isPlaying = false;
+            }
+        });
 
         // Change played scale when item selected in gui
         scope.$watch('scale', function (value) {
